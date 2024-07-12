@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="css.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+      />
+</head>
+<body>
+    <div class="container">
+        <h1>Generate a <br> <span>Random password</span></h1>
+        <div class="display">
+            <input type="text" id="password" placeholder="password"> 
+            <i class="fa-regular fa-copy" onclick="copyPassword()"></i>
+        </div>
+        <button id="generateButton"> <i class="fa-solid fa-bolt"></i> Generate Password</button>
+    </div>
+
+    <script>
+        function genpass(length, inclow, incupp, incno, incsymb) {
+            const lowerchars = "qwertyuiopasdfghjklzxcvbnm";
+            const upperchars = "QWERTYUIOPASDFGHJKLZXCVBNM";
+            const numberchars = "0123456789";
+            const symbolchars = "!@#$%^&*()_+-=/";
+
+            let allowedchars = "";
+            let password = "";
+
+            allowedchars += inclow ? lowerchars : "";
+            allowedchars += incupp ? upperchars : "";
+            allowedchars += incno ? numberchars : "";
+            allowedchars += incsymb ? symbolchars : "";
+
+            for (let i = 0; i < length; i++) {
+                const randomindex = Math.floor(Math.random() * allowedchars.length);
+                password += allowedchars[randomindex];
+            }
+            return password;
+        }
+
+        function copyPassword() {
+            const passwordField = document.getElementById("password");
+            passwordField.select();
+            passwordField.setSelectionRange(0, 99999); // For mobile devices
+            navigator.clipboard.writeText(passwordField.value).then(() => {
+                alert("Password copied to clipboard!");
+            }).catch(err => {
+                console.error("Failed to copy: ", err);
+            });
+        }
+
+        /*
+            Summary of  how COPYPASSWORD FN WORKS TO 'COPY PASSWORD'
+            ** more details in => details-about text file cheack it out **
+            
+            - **Select the input field** containing the password.
+            - **Highlight the text** inside the input field.
+            - **Copy the highlighted text** to the clipboard.
+            - **Show a confirmation alert** if successful, or log an error if it fails.
+
+        
+        */
+
+
+
+        const passwordlength = 10;
+        const inclow = true;
+        const incupp = true;
+        const incno = true;
+        const incsymb = true;
+
+        document.getElementById("generateButton").addEventListener("click", () => {
+            const password = genpass(passwordlength, inclow, incupp, incno, incsymb);
+            document.getElementById("password").value = password;
+        });
+    </script>
+</body>
+</html>
